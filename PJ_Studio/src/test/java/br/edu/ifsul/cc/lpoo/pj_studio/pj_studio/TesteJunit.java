@@ -1,6 +1,7 @@
 
 package br.edu.ifsul.cc.lpoo.pj_studio.pj_studio;
 
+import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.dao.PercistenciaJPA;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Modalidades;
 import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.jupiter.api.AfterEach;
@@ -16,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TesteJunit {
     
-   PersistenciaJPA jpa = new PersistenciaJPA();
+   PercistenciaJPA jpa = new PercistenciaJPA();
     
-    public TesteJunit() {
+    public TesteJunit() { 
     }
     
     @Before // o que fazer antes da persistencia
