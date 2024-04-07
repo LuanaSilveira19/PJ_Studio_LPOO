@@ -3,13 +3,11 @@ package br.edu.ifsul.cc.lpoo.pj_studio.pj_studio;
 
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.dao.PercistenciaJPA;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Modalidades;
-import org.eclipse.persistence.jpa.jpql.Assert;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -52,11 +50,10 @@ public class TesteJunit {
          jpa.persist(m3);
          
          // buscar objeto persistido
-         Modalidades persistidoModalidade = (Modalidades)jpa.find(Modalidades.class, m.getId());//mudar pra M2 M3
+         Modalidades persistidoModalidade = (Modalidades)jpa.find(Modalidades.class, m.getId());//ver se tem necessidade de fazer o mesmo pro m2 e m3
          
          // verificar se objeto persistido é igual ao criado
-         
-         Assert.assertEquals(m.getDescricao(),persistidoModalidade.getDescricao());
+        Assert.assertEquals(m.getDescricao(),persistidoModalidade.getDescricao());
          
          
          
