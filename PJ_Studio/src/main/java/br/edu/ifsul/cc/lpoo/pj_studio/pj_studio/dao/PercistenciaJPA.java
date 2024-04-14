@@ -10,8 +10,8 @@ import javax.persistence.Persistence;
  */
 public class PercistenciaJPA implements InterfacePersistencia {
 
-    public EntityManagerFactory factory; //fabrica de gerenciadores de entidades
-    public EntityManager entity; //gerenciador de entidades JPA
+     EntityManagerFactory factory; //fabrica de gerenciadores de entidades
+     EntityManager entity; //gerenciador de entidades JPA
 
     public PercistenciaJPA() {
         //parametro: é o nome da unidade de persistencia (Persistence Unit)
