@@ -28,14 +28,14 @@ public class Pagamentos implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_Vcto;
     
-    @Column(name = "Valor")
+    @Column(name = "Valor",precision = 10, scale = 2)
     private Double valor;
     
     @Column(name = "Data_Pagamento")
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_Pgto;
     
-    @Column(name = "Valor_Pagamento")
+    @Column(name = "Valor_Pagamento",precision = 10, scale = 2)//precision = 10, scale = 2 não está funcionando
     private Double valor_Pgto;
     
     @ManyToOne//relacionamento muitos para um

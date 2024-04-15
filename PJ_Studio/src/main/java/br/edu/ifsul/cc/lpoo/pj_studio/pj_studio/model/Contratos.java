@@ -28,7 +28,7 @@ public class Contratos implements Serializable{
     @Temporal(TemporalType.TIMESTAMP) //ver se se encaixa no atualizar automaticamente, ou tem que fazer algo 
     private Calendar data_inicio;
    
-    @Column(name = "Valor_desconto")
+    @Column(name = "Valor_desconto",precision = 10, scale = 2)//não está funcionando
     private Double valor_desconto;
     
     @Column(nullable = false,  name = "Forma_pagamento")

@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
 
 /**
  *
@@ -27,7 +27,7 @@ public class Pacotes implements Serializable{
     @Column(nullable=false,length =120 ,name = "Descrição")//Modifica o nome da coluna do BD
     private String descricao;
     
-    @Column(nullable=false,name = "Valor_", precision = 2)// precision não está funcionando no BD
+    @Column(nullable=false,name = "Valor_", precision = 10, scale = 2)// precision não está funcionando no BD
     private Double valor;
 
     @ManyToOne

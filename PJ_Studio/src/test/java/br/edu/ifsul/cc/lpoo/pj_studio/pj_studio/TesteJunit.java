@@ -51,7 +51,8 @@ public class TesteJunit {
 
         jpa.persist(m);
         jpa.persist(m2);
-
+        jpa.persist(m3);
+        
         Contratos c = new Contratos();
         c.setData_inicio(Calendar.getInstance());
         c.setForma_pgto(FormaPgto.PIX);
@@ -60,8 +61,8 @@ public class TesteJunit {
         Pagamentos p1 = new Pagamentos();
         p1.setData_Pgto(Calendar.getInstance());
         p1.setData_Vcto(Calendar.getInstance());
-        p1.setValor(200.0);
-        p1.setValor_Pgto(240.0);
+        p1.setValor(200.463728);
+        p1.setValor_Pgto(240.985346);
         p1.setContratos(c);
         jpa.persist(p1);
 
@@ -71,9 +72,8 @@ public class TesteJunit {
         Pacotes pc = new Pacotes();
         pc.setDescricao("testando pacotes");
         //pc.setValor(resultadoFormatado);
+        pc.setModalidade(m3);
         pc.setValor(540.94767);
-        m3.adicionarPacote(pc);//deu erro 
-        jpa.persist(m3);
         jpa.persist(pc);
 
         // buscar objeto persistido
