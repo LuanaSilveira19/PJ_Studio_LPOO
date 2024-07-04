@@ -1,44 +1,37 @@
 
 package br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author luana
  */
 
-//@Entity
-public class Professores extends Pessoas {
+@Entity
+public class Professores extends Pessoas implements Serializable{
     
     @Column(name = "Data_Admissão")
+    @Temporal(TemporalType.DATE)//dia, mes e ano
     private Calendar data_adm;
     
-    private Collection<FolhaPagamento> folha_pagamento;
+    @OneToMany
+    private List<FolhaPagamento> f_pagamento= new ArrayList();
     
-    private Collection<Modalidades> modalidade;
-
-    public Collection<Modalidades> getModalidade() {
-        return modalidade;
-    }
-
-    public void setModalidade(Collection<Modalidades> modalidade) {
-        this.modalidade = modalidade;
-    }
-    
-    
-
-    public Collection<FolhaPagamento> getFolha_pagamento() {
-        return folha_pagamento;
-    }
-
-    public void setFolha_pagamento(Collection<FolhaPagamento> folha_pagamento) {
-        this.folha_pagamento = folha_pagamento;
-    }
-    
+    @OneToMany
+    private List<Modalidades> modalidade= new ArrayList();
+  
     public Calendar getData_adm() {
         return data_adm;
     }

@@ -1,21 +1,26 @@
 
 package br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author luana
  */
 
-//@Entity
-public class Alunos extends Pessoas{
+@Entity
+public class Alunos extends Pessoas implements Serializable{
     @Column(name = "Data_inicio")
+    @Temporal(TemporalType.DATE)//dia, mes e ano
     private Calendar data_inicio;
     
     @Column(name = "Data_Pgto")
+    
     private Integer data_Pgto;
 
     public Calendar getData_inicio() {

@@ -28,14 +28,14 @@ public class Pagamentos implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_Vcto;
     
-    @Column(name = "Valor",precision = 10, scale = 2)
+    @Column(name = "Valor",columnDefinition = "decimal(12,2)")
     private Double valor;
     
     @Column(name = "Data_Pagamento")
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_Pgto;
     
-    @Column(name = "Valor_Pagamento",precision = 10, scale = 2)//precision = 10, scale = 2 não está funcionando
+    @Column(name = "Valor_Pagamento",columnDefinition = "decimal(12,2)")
     private Double valor_Pgto;
     
     @ManyToOne//relacionamento muitos para um
@@ -49,11 +49,14 @@ public class Pagamentos implements Serializable {
     public void setContratos(Contratos contratos) {
         this.contratos = contratos;
     }
-     
-    
+ 
    public void GerarPagamento(Integer mes_ref){
-       
-   }
+       if (mes_ref <=data_Vcto.get(Calendar.DAY_OF_MONTH)){
+            setData_Pgto(Calendar.getInstance());//não sei se tem que fazer algo a mais nessa
+       } else {
+             setData_Pgto(null);
+       }
+   }       
 
     public Integer getId() {
         return id;

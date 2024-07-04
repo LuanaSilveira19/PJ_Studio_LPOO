@@ -20,33 +20,14 @@ import javax.persistence.OneToMany;
 //caso precise mudar usar o @Table (name="outro_nome"), isso fara com que mude o nome do BD
 public class Modalidades implements Serializable {//implements Serializable diz que o dado vai ser jogado linha a linha pro BD
 
-    @Id
+    @Id// notação que define a chave primaria na tabela
     @GeneratedValue(strategy = GenerationType.SEQUENCE)//id sequencial
     private Integer id;
 
     //nullable=false diz que é obrigatorio
     @Column(nullable = false, length = 155, name = "Descrição")//Modifica o nome da coluna do BD, por padrão o valor não é not null
     private String descricao;
-
-    //tentativa que deu errado, vejo em aula se era pra ser isso mesmo
-    //  @OneToMany(mappedBy ="modalidades", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)//mappedBy informar qual é o nome do atributo no endereço que vai ser guardado
-    // List<Pacotes>pacotes= new ArrayList();
-
-    /*  public void adicionarPacote(Pacotes p){
-        p.setModalidade(this);
-        this.pacotes.add(p);
-    }
     
-    public void removerPacote(int index){
-        this.pacotes.remove(index);
-    }
-    public List<Pacotes> getPacotes() {
-        return pacotes;
-    }
-
-    public void setPacotes(List<Pacotes> pacotes) {
-        this.pacotes = pacotes;
-    }*/
     public Integer getId() {
         return id;
     }

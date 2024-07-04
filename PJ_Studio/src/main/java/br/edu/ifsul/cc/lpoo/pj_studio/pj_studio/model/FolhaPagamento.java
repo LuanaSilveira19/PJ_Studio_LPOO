@@ -8,12 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author luana
  */
-//@Entity
+@Entity
 public class FolhaPagamento  implements Serializable{
     
     @Id
@@ -27,7 +29,7 @@ public class FolhaPagamento  implements Serializable{
     private Double valor_receber;
     
     public void calcularFolhames(){
-       
+       //vou aguardar pra ver oq pede 
     }
 
     public Integer getId() {

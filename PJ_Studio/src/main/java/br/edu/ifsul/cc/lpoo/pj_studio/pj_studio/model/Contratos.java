@@ -2,17 +2,24 @@
 package br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
 import java.util.Calendar;
-import java.util.Collection;
+import java.util.List;
+import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import javax.persistence.OneToMany;
+
 
 /**
  *
@@ -25,18 +32,31 @@ public class Contratos implements Serializable{
     private Integer id;
     
     @Column(nullable = false)//por ser obrigatorio ele precisa ser persistido
-    @Temporal(TemporalType.TIMESTAMP) //ver se se encaixa no atualizar automaticamente, ou tem que fazer algo 
     private Calendar data_inicio;
+
+    public Contratos() {
+        
+        data_inicio=Calendar.getInstance(); //atualiza a data automaticamente sem precisar setar no test
+    }
+    
    
-    @Column(name = "Valor_desconto",precision = 10, scale = 2)//não está funcionando
+    @Column(name = "Valor_desconto",columnDefinition = "decimal(12,2)")
     private Double valor_desconto;
     
     @Column(nullable = false,  name = "Forma_pagamento")
     @Enumerated(EnumType.STRING)//usado para vincular o enum 
-    private  FormaPgto forma_pgto;
-
-     //private Collection<ItensContrato> itensContrato;
+    private FormaPgto forma_pgto;
     
+   
+   @OneToMany(mappedBy = "contratos", cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.LAZY)
+    private List<ItensContrato> itensContrato= new ArrayList();
+   
+   private void adiciona_itens(ItensContrato obj){
+                 itensContrato.add(obj);
+   }
+    private void remove_itens(ItensContrato obj){
+                 itensContrato.remove(obj);
+   }
     public Double getValor_desconto() {
         return valor_desconto;
     }

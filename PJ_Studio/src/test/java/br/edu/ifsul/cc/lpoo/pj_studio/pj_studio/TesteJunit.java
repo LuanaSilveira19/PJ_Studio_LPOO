@@ -54,7 +54,6 @@ public class TesteJunit {
         jpa.persist(m3);
         
         Contratos c = new Contratos();
-        c.setData_inicio(Calendar.getInstance());
         c.setForma_pgto(FormaPgto.PIX);
         jpa.persist(c);
 
@@ -65,16 +64,13 @@ public class TesteJunit {
         p1.setValor_Pgto(240.985346);
         p1.setContratos(c);
         jpa.persist(p1);
-
-        //VER SOBRE O ID, EM CADA TABELA ELE CONTINUA A SEQUENCIA, NÃO INICIA NOVAMENTE DO 1
-        //DecimalFormat formato = new DecimalFormat("###.##");
-        //double resultadoFormatado = parseDouble(formato.format(540.94767));   //NÃO FUNCIONOU DESSA MANEIRA
         Pacotes pc = new Pacotes();
         pc.setDescricao("testando pacotes");
-        //pc.setValor(resultadoFormatado);
         pc.setModalidade(m3);
         pc.setValor(540.94767);
         jpa.persist(pc);
+        
+      
 
         // buscar objeto persistido
         Modalidades persistidoModalidade = (Modalidades) jpa.find(Modalidades.class, m.getId());//ver se tem necessidade de fazer o mesmo pro m2 e m3

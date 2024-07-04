@@ -8,12 +8,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 
 /**
  *
  * @author luana
  */
-//@Entity
+@Entity
 public class ItensContrato implements Serializable{
     
     //tem como chave estrangeira contrato e pacote, ver como fazer 
@@ -21,6 +26,8 @@ public class ItensContrato implements Serializable{
     @GeneratedValue(strategy = GenerationType.SEQUENCE)//id sequencial
     private Integer id;
     
+    @ManyToOne
+    @JoinColumn(name = "contratos_id")
     private Contratos contratos;
     
     
