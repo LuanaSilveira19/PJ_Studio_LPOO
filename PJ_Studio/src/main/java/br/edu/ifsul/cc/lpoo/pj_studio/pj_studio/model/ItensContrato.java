@@ -27,8 +27,28 @@ public class ItensContrato implements Serializable{
     private Integer id;
     
     @ManyToOne
+    @JoinColumn(name = "pacotes_id")
+    private Pacotes pacotes;
+    
+    @ManyToOne
     @JoinColumn(name = "contratos_id")
     private Contratos contratos;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Contratos getContratos() {
+        return contratos;
+    }
+
+    public void setContratos(Contratos contratos) {
+        this.contratos = contratos;
+    }
     
     
 }

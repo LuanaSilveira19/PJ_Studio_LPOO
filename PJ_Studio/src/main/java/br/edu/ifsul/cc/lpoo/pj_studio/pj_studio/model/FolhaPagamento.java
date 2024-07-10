@@ -28,6 +28,7 @@ public class FolhaPagamento  implements Serializable{
     @Column(name = "Valor_a_Receber")
     private Double valor_receber;
     
+    //pra poder fazer o pagamento da folha do mes é necessário colocar mais coisas do que existem no diagrama
     public void calcularFolhames(){
        //vou aguardar pra ver oq pede 
     }
