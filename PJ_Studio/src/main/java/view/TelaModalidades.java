@@ -38,6 +38,8 @@ public class TelaModalidades extends javax.swing.JFrame {
         btnNovo = new javax.swing.JButton();
         Lista = new javax.swing.JScrollPane();
         lstModalidades = new javax.swing.JList<>();
+        BTNRemover = new javax.swing.JButton();
+        BTNEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,6 +51,20 @@ public class TelaModalidades extends javax.swing.JFrame {
         });
 
         Lista.setViewportView(lstModalidades);
+
+        BTNRemover.setText("Remover");
+        BTNRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNRemoverActionPerformed(evt);
+            }
+        });
+
+        BTNEditar.setText("Editar");
+        BTNEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,6 +79,12 @@ public class TelaModalidades extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(Lista, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(16, 16, 16))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(BTNRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BTNEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -71,7 +93,11 @@ public class TelaModalidades extends javax.swing.JFrame {
                 .addComponent(Lista, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNovo)
-                .addGap(51, 51, 51))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BTNRemover)
+                    .addComponent(BTNEditar))
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -88,6 +114,7 @@ public class TelaModalidades extends javax.swing.JFrame {
         }
     }
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
+        
         lstModalidades.setModel(mod);
 
         String descricao = JOptionPane.showInputDialog(this, "Digite a descrição da nova modalidade:");
@@ -101,6 +128,62 @@ public class TelaModalidades extends javax.swing.JFrame {
         }
         listarModalidades();
     }//GEN-LAST:event_btnNovoActionPerformed
+
+     private Modalidades buscarModalidade(String descricao) {
+       List<Modalidades> modal = jpa.getModalidades();
+        for (Modalidades modalidade : modal) {
+            if (modalidade.getDescricao().equalsIgnoreCase(descricao)) {
+                return modalidade;
+            }
+        }
+        return null;
+    }
+    private void BTNRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNRemoverActionPerformed
+       
+        String descricao = JOptionPane.showInputDialog(this, "Digite a descrição da modalidade para ser removida:");
+           if (descricao != null && !descricao.trim().isEmpty()) {
+            Modalidades modalidade = buscarModalidade(descricao);
+            if (modalidade != null) {
+                try {
+                    jpa.remover(modalidade);
+                     JOptionPane.showMessageDialog(this, "Modalidade removida: " + modalidade.getDescricao());
+                     listarModalidades();
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaModalidades.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "Erro ao remover a modalidade.");
+                }
+            } else {
+                 JOptionPane.showMessageDialog(this, "Modalidade não encontrada.");
+            }
+        } else {
+             JOptionPane.showMessageDialog(this, "Descrição inválida.");
+        }
+           
+    }//GEN-LAST:event_BTNRemoverActionPerformed
+
+    private void BTNEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNEditarActionPerformed
+      String descricao = JOptionPane.showInputDialog(this, "Digite a descrição da modalidade para ser editada:");
+      String nova = JOptionPane.showInputDialog(this, "Modifique o nome dela:");
+           if (descricao != null && !descricao.trim().isEmpty()) {
+            Modalidades modalidade = buscarModalidade(descricao);
+            if (modalidade != null) {
+                try {
+                     modalidade.setDescricao(nova);  
+                     jpa.update(modalidade);
+                     JOptionPane.showMessageDialog(this, "Modalidade atualizada: Antiga:" +descricao+", Nova: "+ modalidade.getDescricao());
+                     listarModalidades();
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaModalidades.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "Erro ao editar a modalidade.");
+                }
+            } else {
+                 JOptionPane.showMessageDialog(this, "Modalidade não encontrada.");
+            }
+        } else {
+             JOptionPane.showMessageDialog(this, "Descrição inválida.");
+        }
+           
+    }//GEN-LAST:event_BTNEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,12 +215,15 @@ public class TelaModalidades extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                
                 new TelaModalidades().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTNEditar;
+    private javax.swing.JButton BTNRemover;
     private javax.swing.JScrollPane Lista;
     private javax.swing.JButton btnNovo;
     private javax.swing.JList<String> lstModalidades;

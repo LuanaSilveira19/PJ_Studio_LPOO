@@ -52,6 +52,14 @@ public class PercistenciaJPA implements InterfacePersistencia {
         entity.remove(o);
         entity.getTransaction().commit();
     }
+    
+     @Override
+    public void update(Object o) throws Exception {
+         entity.getTransaction().begin();
+        entity.merge(o);
+        entity.getTransaction().commit();
+       
+    }
        public void adicionarModalidade(String descricao) {
         entity.getTransaction().begin();
         Modalidades modalidade = new Modalidades();
