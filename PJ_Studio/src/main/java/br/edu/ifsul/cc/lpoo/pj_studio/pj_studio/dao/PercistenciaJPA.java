@@ -1,8 +1,12 @@
 package br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.dao;
 
+import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Modalidades;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -48,5 +52,19 @@ public class PercistenciaJPA implements InterfacePersistencia {
         entity.remove(o);
         entity.getTransaction().commit();
     }
+       public void adicionarModalidade(String descricao) {
+        entity.getTransaction().begin();
+        Modalidades modalidade = new Modalidades();
+        modalidade.setDescricao(descricao);
+        entity.persist(modalidade);
+        entity.getTransaction().commit();
+    }
+       
+      public List<Modalidades> getModalidades() {
+        TypedQuery<Modalidades> query = entity.createQuery("SELECT m FROM Modalidades m", Modalidades.class);
+        return query.getResultList();
+    }
+     
+    
 
 }
