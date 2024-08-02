@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -13,32 +16,40 @@ import javax.persistence.TemporalType;
  * @author luana
  */
 
+
 @Entity
+@Table(name = "tb_aluno")
 public class Alunos extends Pessoas implements Serializable{
-    @Column(name = "Data_inicio")
-    @Temporal(TemporalType.DATE)//dia, mes e ano
-    private Calendar data_inicio;
     
-    @Column(name = "Data_Pgto")
+    @Column(name = "aluno_data_inicio")
+    private Calendar dataInicio;
     
-    private Integer data_Pgto;
+    @Column(name = "aluno_dia_pgto")
+    private Integer dataPgto;
 
-    public Calendar getData_inicio() {
-        return data_inicio;
+    public Alunos() {
+        dataInicio = Calendar.getInstance();
     }
 
-    public void setData_inicio(Calendar data_inicio) {
-        this.data_inicio = data_inicio;
+    public Calendar getDataInicio() {
+        return dataInicio;
     }
 
-    public Integer getData_Pgto() {
-        return data_Pgto;
+    public void setDataInicio(Calendar dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public void setData_Pgto(Integer data_Pgto) {
-        this.data_Pgto = data_Pgto;
+    public int getDataPgto() {
+        return dataPgto;
+    }
+
+    public void setDataPgto(Integer dataPgto) {
+        this.dataPgto = dataPgto;
     }
     
+   
+
     
     
 }
+    

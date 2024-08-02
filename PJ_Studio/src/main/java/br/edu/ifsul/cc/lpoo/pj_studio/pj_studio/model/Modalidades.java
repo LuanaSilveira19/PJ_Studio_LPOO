@@ -10,23 +10,44 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.swing.JComboBox;
 
 /**
  *
  * @author luana
  */
 @Entity //mapeia uma tabela no BD com o mesmo nome da classe
-//caso precise mudar usar o @Table (name="outro_nome"), isso fara com que mude o nome do BD
+@Table(name="tb_modalidade")
 public class Modalidades implements Serializable {//implements Serializable diz que o dado vai ser jogado linha a linha pro BD
 
-    @Id// notação que define a chave primaria na tabela
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)//id sequencial
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
-
-    //nullable=false diz que é obrigatorio
-    @Column(nullable = false, length = 155, name = "Descrição")//Modifica o nome da coluna do BD, por padrão o valor não é not null
+    
+    @Column(nullable = false, length = 155, name = "modalidade_descricao")
     private String descricao;
+
+    //    Validação do Mapeamento Bidirecional: Garantir que o mapeamento @OneToMany em Professor 
+//    e @ManyToOne em Modalidade estejam corretamente configurados para refletir o relacionamento bidirecional.
+    @ManyToOne
+    @JoinColumn(name="modalidades_professores")
+    private Professores professores;
+    
+    //@OneToMany(mappedBy = "modalidades")
+    //private List<Pacotes> pacotes = new ArrayList<>();
+
+   /* public List<Pacotes> getPacotes() {
+        return pacotes;
+    }
+
+    public void setPacotes(List<Pacotes> pacotes) {
+        this.pacotes = pacotes;
+    }*/
+
     
     public Integer getId() {
         return id;
@@ -44,4 +65,20 @@ public class Modalidades implements Serializable {//implements Serializable diz 
         this.descricao = descricao;
     }
 
+    public Professores getProfessores() {
+        return professores;
+    }
+
+    public void setProfessores(Professores professores) {
+        this.professores = professores;
+    }
+
+    @Override
+    public String toString() {
+        return descricao;
+    }
+
+    
+
+   
 }

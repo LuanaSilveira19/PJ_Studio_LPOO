@@ -2,14 +2,18 @@
 package br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 /**
@@ -18,30 +22,31 @@ import javax.persistence.ManyToOne;
  */
 
 @Entity
+@Table(name="tb_pacote")
 public class Pacotes implements Serializable{
-    
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)//id sequencial
+    @Column(name = "pacotes_id")
     private Integer id;
     
-    @Column(nullable=false,length =120 ,name = "Descrição")//Modifica o nome da coluna do BD
+    @Column(name = "pacotes_descricao", nullable = false, length = 120)
     private String descricao;
     
-    @Column(nullable=false,name = "Valor_", columnDefinition = "decimal(12,2)")
-    private Double valor;
-
-    @ManyToOne
-    @JoinColumn(name="modalidade_id", referencedColumnName = "id", nullable = false)
-    private Modalidades modalidade; //qual modalidade pertence a esse pacote
-
-    public Modalidades getModalidade() {
-        return modalidade;
-    }
-
-    public void setModalidade(Modalidades modalidade) {
-        this.modalidade = modalidade;
-    }
+    @Column(name = "pacote_valor", nullable = false, precision = 2)
+    private double valor;
     
+    @ManyToOne
+    @JoinColumn(name = "modalidades_id")
+    private Modalidades modalidade;
+    
+    @ManyToMany(mappedBy = "pacotes")
+    private List<Contratos> contratos = new ArrayList<>();
+
+    public Pacotes() {
+        
+    }
+     
     public Integer getId() {
         return id;
     }
@@ -58,15 +63,29 @@ public class Pacotes implements Serializable{
         this.descricao = descricao;
     }
 
-    public Double getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
-     
-     
+
+    public Modalidades getModalidade() {
+        return modalidade;
+    }
+
+    public void setModalidade(Modalidades modalidade) {
+        this.modalidade = modalidade;
+    }
+
+    public List<Contratos> getContratos() {
+        return contratos;
+    }
+    
+    public void addContrato(Contratos c) {
+        contratos.add(c);
+    }
     
     
 }

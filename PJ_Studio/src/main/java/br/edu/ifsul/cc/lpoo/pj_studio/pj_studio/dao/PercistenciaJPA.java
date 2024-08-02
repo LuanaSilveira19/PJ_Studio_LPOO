@@ -1,6 +1,7 @@
 package br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.dao;
 
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Modalidades;
+import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Professores;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,9 +14,11 @@ import javax.persistence.TypedQuery;
  * @author luana
  */
 public class PercistenciaJPA implements InterfacePersistencia {
-
-     EntityManagerFactory factory; //fabrica de gerenciadores de entidades
-     EntityManager entity; //gerenciador de entidades JPA
+    
+   
+    //codigo da prof
+    public EntityManagerFactory factory;    //fabrica de gerenciadores de entidades
+    public EntityManager entity;            //gerenciador de entidades JPA
 
     public PercistenciaJPA() {
         //parametro: é o nome da unidade de persistencia (Persistence Unit)
@@ -26,33 +29,75 @@ public class PercistenciaJPA implements InterfacePersistencia {
 
     @Override
     public Boolean conexaoAberta() {
+        if (entity == null || !entity.isOpen()) {
+            entity = factory.createEntityManager();
+        }
         return entity.isOpen();
     }
 
     @Override
     public void fecharConexao() {
-        entity.close();
+        if (entity != null && entity.isOpen()) {
+            entity.close();
+        }
     }
 
     @Override
     public Object find(Class c, Object id) throws Exception {
-        return entity.find(c, id);
+        EntityManager em = getEntityManager();
+        return em.find(c, id);//encontra um determinado registro 
     }
+    
+  
+     public void persist(Object o) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(o);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao persistir a entidade: " + o.getClass().getSimpleName(), e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+    
+    
 
-    @Override
-    public void persist(Object o) throws Exception {
-        entity.getTransaction().begin();
-        entity.persist(o);
-        entity.getTransaction().commit();
+    
+    //Todos os métodos agora chamam getEntityManager() para garantir que o EntityManager esteja sempre aberto e pronto para uso.
+     
+    public EntityManager getEntityManager() {
+        if (entity == null || !entity.isOpen()) {
+            entity = factory.createEntityManager();
+        }
+        return entity;
     }
 
     @Override
     public void remover(Object o) throws Exception {
-        entity.getTransaction().begin();
-        entity.remove(o);
-        entity.getTransaction().commit();
+//        No método remover, antes de chamar remove, usamos merge se o objeto não estiver gerenciado.
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            if (!em.contains(o)) {
+                o = em.merge(o); // Anexa o objeto ao contexto de persistência, se necessário
+            }
+            em.remove(o);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        }
     }
-    
      @Override
     public void update(Object o) throws Exception {
          entity.getTransaction().begin();
@@ -60,19 +105,29 @@ public class PercistenciaJPA implements InterfacePersistencia {
         entity.getTransaction().commit();
        
     }
-       public void adicionarModalidade(String descricao) {
-        entity.getTransaction().begin();
-        Modalidades modalidade = new Modalidades();
-        modalidade.setDescricao(descricao);
-        entity.persist(modalidade);
-        entity.getTransaction().commit();
+
+    public List<Modalidades> getModalidades() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Modalidades> query = 
+                    em.createQuery("SELECT m FROM Modalidades m", Modalidades.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-       
-      public List<Modalidades> getModalidades() {
-        TypedQuery<Modalidades> query = entity.createQuery("SELECT m FROM Modalidades m", Modalidades.class);
-        return query.getResultList();
+     public List<Professores> getProfessores() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Professores> query = 
+                    em.createQuery("SELECT m FROM Professores m", Professores.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-     
     
 
 }

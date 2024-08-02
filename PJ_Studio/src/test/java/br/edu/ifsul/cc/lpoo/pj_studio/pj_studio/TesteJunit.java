@@ -6,6 +6,7 @@ import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.FormaPgto;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Modalidades;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Pacotes;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Pagamentos;
+import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Professores;
 import static java.lang.Double.parseDouble;
 import java.text.DecimalFormat;
 import java.util.Calendar;

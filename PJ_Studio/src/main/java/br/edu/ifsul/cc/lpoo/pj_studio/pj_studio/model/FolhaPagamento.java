@@ -19,19 +19,9 @@ import javax.persistence.ManyToOne;
 public class FolhaPagamento  implements Serializable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)//id sequencial
+    @Column(name = "folha_pgto_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
-    
-    @Column(name = "Data_Pgto")
-    private Calendar data_pgto;
-    
-    @Column(name = "Valor_a_Receber")
-    private Double valor_receber;
-    
-    //pra poder fazer o pagamento da folha do mes é necessário colocar mais coisas do que existem no diagrama
-    public void calcularFolhames(){
-       //vou aguardar pra ver oq pede 
-    }
 
     public Integer getId() {
         return id;
@@ -41,21 +31,45 @@ public class FolhaPagamento  implements Serializable{
         this.id = id;
     }
 
-    public Calendar getData_pgto() {
-        return data_pgto;
+    public Professores getProfessores() {
+        return professores;
     }
 
-    public void setData_pgto(Calendar data_pgto) {
-        this.data_pgto = data_pgto;
-    }
-
-    public Double getValor_receber() {
-        return valor_receber;
-    }
-
-    public void setValor_receber(Double valor_receber) {
-        this.valor_receber = valor_receber;
+    public void setProfessores(Professores professores) {
+        this.professores = professores;
     }
     
+    @Column(name = "folha_pgto_data_pgto")
+    private Calendar dataPgto;
+    
+    @Column(name="folha_pgto_valor")
+    private double valorReceber;
+    
+    
+    //    Validação do Mapeamento Bidirecional: Garantir que o mapeamento @OneToMany em Professor 
+//    e @ManyToOne em FolhaPagamento estejam corretamente configurados para refletir o relacionamento bidirecional.
+    @ManyToOne
+    @JoinColumn(name="folha_pgto_professores")
+    private Professores professores;
+
+    public Calendar getDataPgto() {
+        return dataPgto;
+    }
+
+    public void setDataPgto(Calendar dataPgto) {
+        this.dataPgto = dataPgto;
+    }
+
+    public double getValorReceber() {
+        return valorReceber;
+    }
+
+    public void setValorReceber(double valorReceber) {
+        this.valorReceber = valorReceber;
+    }
+    
+    public void calcularFolhaMes(){
+    
+    }
     
 }

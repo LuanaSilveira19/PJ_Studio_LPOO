@@ -15,36 +15,28 @@ import javax.persistence.InheritanceType;
  *
  * @author luana
  */
-@Entity 
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)//notação usada para classes que irão fornecer herança
-public abstract class Pessoas implements Serializable{
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Pessoas implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)//id sequencial
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
     
-    @Column(name = "Nome")
-    private String nome;
+    @Column(length = 100, name = "pessoa_nome")
+     String nome;
     
-    @Column(name = "Telefone")
-    private String telefone;
+    @Column(length = 17, name = "pessoa_telefone")
+    private String fone;
     
-    @Column(name = "Aniversario")
-    private Calendar data_aniversario;
+    @Column(name="pessoa_data_aniversario")
+    private Calendar dataAniver;
     
-    @Column(name = "E-mail")
+    @Column(name="pessoa_email") // Não usar hífen para armazenamento no BD 
     private String email;
     
-    @Column(name = "Endereço")
+    @Column(name="pessoa_endereco")
     private String endereco;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -54,20 +46,20 @@ public abstract class Pessoas implements Serializable{
         this.nome = nome;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getFone() {
+        return fone;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setFone(String fone) {
+        this.fone = fone.replaceAll(" ", "");
     }
 
-    public Calendar getData_aniversario() {
-        return data_aniversario;
+    public Calendar getDataAniver() {
+        return dataAniver;
     }
 
-    public void setData_aniversario(Calendar data_aniversario) {
-        this.data_aniversario = data_aniversario;
+    public void setDataAniver(Calendar dataAniver) {
+        this.dataAniver = dataAniver;
     }
 
     public String getEmail() {
@@ -85,6 +77,18 @@ public abstract class Pessoas implements Serializable{
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+    
+    
+    
     
     
 }
