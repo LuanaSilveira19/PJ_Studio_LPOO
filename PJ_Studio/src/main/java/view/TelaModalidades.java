@@ -160,7 +160,7 @@ public class TelaModalidades extends javax.swing.JFrame {
         if (modalidadeSelecionada != null) {
 
             try {
-                jpa = new PercistenciaJPA();
+             
                 jpa.conexaoAberta();
 
                 Modalidades modalidadePersistido= (Modalidades) jpa.find(Modalidades.class, modalidadeSelecionada.getId());

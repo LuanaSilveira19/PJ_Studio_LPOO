@@ -1,5 +1,6 @@
 package view;
 
+import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.dao.CadastroModalidadeListener;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.dao.PercistenciaJPA;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Modalidades;
 import static br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Modalidades_.professores;
@@ -24,11 +25,24 @@ public class TelaCadastroModalidades extends javax.swing.JFrame {
      * Creates new form TelaCadastroModalidades
      */
     private PercistenciaJPA jpa;
- private Modalidades modalidade;
+    private Modalidades modalidade;
+    private CadastroModalidadeListener listener;
+    
     public TelaCadastroModalidades() {
         initComponents();
         listarProfessores();
 
+    }
+ 
+
+    public void setListener(CadastroModalidadeListener listener) {
+        this.listener = listener;
+    }
+      private void fecharTelaCadastro() {
+        if (listener != null) {
+            listener.onModalidadeAtualizada();
+        }
+        dispose();
     }
       // Método para definir a modalidade
     public void setModalidade(Modalidades modalidade) {
@@ -88,6 +102,11 @@ public class TelaCadastroModalidades extends javax.swing.JFrame {
         });
 
         BTCancelar.setText("Cancelar");
+        BTCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTCancelarActionPerformed(evt);
+            }
+        });
 
         TXTdescricao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,20 +163,28 @@ public class TelaCadastroModalidades extends javax.swing.JFrame {
 
     private void BTSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTSalvarActionPerformed
         // SALVAR 
+  
+       Modalidades m;
+        try {
+            jpa.conexaoAberta();
+            m = (Modalidades) jpa.find(Modalidades.class, modalidade.getId());
+            m.setDescricao(TXTdescricao.getText());
+            Professores prof = (Professores) COMBProfessores.getSelectedItem();
+            m.setProfessores(prof);
+            jpa.persist(m);
+            JOptionPane.showMessageDialog(rootPane, "Modalidade editada!");
+        } catch (Exception ex) {
+            Logger.getLogger(TelaCadastroModalidades.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        Modalidades m = new Modalidades();
-       
-        m.setDescricao(TXTdescricao.getText());
-        Professores prof = (Professores) COMBProfessores.getSelectedItem();
-        m.setProfessores(prof);
-        jpa = new PercistenciaJPA();
-        jpa.conexaoAberta();
-       //falta descobrir a maneira para editar 
-        jpa.persist(m);
         jpa.fecharConexao();
-        System.exit(0);
+           fecharTelaCadastro();
 
     }//GEN-LAST:event_BTSalvarActionPerformed
+
+    private void BTCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTCancelarActionPerformed
+         this.dispose();
+    }//GEN-LAST:event_BTCancelarActionPerformed
 
     /**
      * @param args the command line arguments

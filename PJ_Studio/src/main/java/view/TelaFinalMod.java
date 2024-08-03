@@ -1,5 +1,6 @@
 package view;
 
+import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.dao.CadastroModalidadeListener;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.dao.PercistenciaJPA;
 import br.edu.ifsul.cc.lpoo.pj_studio.pj_studio.model.Modalidades;
 import java.util.ArrayList;
@@ -153,29 +154,26 @@ public class TelaFinalMod extends javax.swing.JFrame {
 
     private void BTNEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNEditarActionPerformed
        Modalidades modalidadeSelecionada = lstModalidades.getSelectedValue();
-    jpa.conexaoAberta();
+   // jpa.conexaoAberta();
     if (modalidadeSelecionada != null) {
         // Edição da Modalidade em Tela de Cadastro
         TelaCadastroModalidades telaCadastro = new TelaCadastroModalidades();
-        Modalidades modalidadePersistido = null;
-        try {
-            modalidadePersistido = (Modalidades) jpa.find(Modalidades.class, modalidadeSelecionada.getId());
-        } catch (Exception ex) {
-            Logger.getLogger(TelaFinalMod.class.getName()).log(Level.SEVERE, null, ex);
-        }
+     
 
-        jpa.persist(modalidadePersistido);
-        jpa.fecharConexao();
-
-        // Envia a modalidade selecionada para a tela de cadastro
-        
-        telaCadastro.setModalidade(modalidadePersistido);
-        telaCadastro.setVisible(true);
+            telaCadastro.setModalidade(modalidadeSelecionada);
+            telaCadastro.setListener(new CadastroModalidadeListener() {
+                @Override
+                public void onModalidadeAtualizada() {
+                      listarModalidades();
+                }
+            });
+            telaCadastro.setVisible(true);
 
         listarModalidades();
     } else {
-        // Tratamento para caso nenhuma modalidade seja selecionada
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma modalidade primeiro!");
     }
+       listarModalidades();
     }//GEN-LAST:event_BTNEditarActionPerformed
 
     /**
